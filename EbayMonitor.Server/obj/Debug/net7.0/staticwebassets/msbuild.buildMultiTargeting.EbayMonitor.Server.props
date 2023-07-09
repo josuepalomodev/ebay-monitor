@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\EbayMonitor.Server.props" />
+</Project>

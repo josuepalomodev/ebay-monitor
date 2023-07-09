@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "h++4Uen9m1gQOSP1r+MCvVZtK+tNyPrrDCSnWUsxHW8=",
+  "Source": "EbayMonitor.Server",
+  "BasePath": "_content/EbayMonitor.Server",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
