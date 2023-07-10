@@ -8,11 +8,20 @@
     ".NETCoreApp,Version=v7.0": {
       "EbayMonitor.Server/1.0.0": {
         "dependencies": {
+          "HtmlAgilityPack": "1.11.49",
           "Microsoft.AspNetCore.OpenApi": "7.0.7",
           "Swashbuckle.AspNetCore": "6.5.0"
         },
         "runtime": {
           "EbayMonitor.Server.dll": {}
+        }
+      },
+      "HtmlAgilityPack/1.11.49": {
+        "runtime": {
+          "lib/netstandard2.0/HtmlAgilityPack.dll": {
+            "assemblyVersion": "1.11.49.0",
+            "fileVersion": "1.11.49.0"
+          }
         }
       },
       "Microsoft.AspNetCore.OpenApi/7.0.7": {
@@ -80,6 +89,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "HtmlAgilityPack/1.11.49": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-Mo5Thds22DOvJOBOTmMosHsykqoTHECuHzjc1VWQMIjUTXZ+W03m/+HHH1dkWYfV8fOkXsI3eXCXVGNjAsdRKQ==",
+      "path": "htmlagilitypack/1.11.49",
+      "hashPath": "htmlagilitypack.1.11.49.nupkg.sha512"
     },
     "Microsoft.AspNetCore.OpenApi/7.0.7": {
       "type": "package",

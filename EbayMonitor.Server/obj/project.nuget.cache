@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "+3MSJ0J60YYMLkCe5S/dG9hakjoZi9JYZcdHjWE5aSD2D6Wcwe1qU9U3B5vEv0FZk6MAcqGU+zmF5kJgk/YXNw==",
+  "dgSpecHash": "kweGbOblbtmuzp0MdcWK6xUdc9XBcPyqWABmRYnc6mIpQ+cWVmuCr/hzaxqy8Wq1Qp4Nwll+yTHz04I3KiK9iw==",
   "success": true,
   "projectFilePath": "C:\\Users\\josue\\RiderProjects\\EbayMonitor\\EbayMonitor.Server\\EbayMonitor.Server.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\josue\\.nuget\\packages\\htmlagilitypack\\1.11.49\\htmlagilitypack.1.11.49.nupkg.sha512",
     "C:\\Users\\josue\\.nuget\\packages\\microsoft.aspnetcore.openapi\\7.0.7\\microsoft.aspnetcore.openapi.7.0.7.nupkg.sha512",
     "C:\\Users\\josue\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\josue\\.nuget\\packages\\microsoft.openapi\\1.4.3\\microsoft.openapi.1.4.3.nupkg.sha512",

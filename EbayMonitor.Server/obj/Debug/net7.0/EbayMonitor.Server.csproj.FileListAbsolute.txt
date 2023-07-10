@@ -31,3 +31,4 @@ C:\Users\josue\RiderProjects\EbayMonitor\EbayMonitor.Server\obj\Debug\net7.0\ref
 C:\Users\josue\RiderProjects\EbayMonitor\EbayMonitor.Server\obj\Debug\net7.0\EbayMonitor.Server.pdb
 C:\Users\josue\RiderProjects\EbayMonitor\EbayMonitor.Server\obj\Debug\net7.0\EbayMonitor.Server.genruntimeconfig.cache
 C:\Users\josue\RiderProjects\EbayMonitor\EbayMonitor.Server\obj\Debug\net7.0\ref\EbayMonitor.Server.dll
+C:\Users\josue\RiderProjects\EbayMonitor\EbayMonitor.Server\bin\Debug\net7.0\HtmlAgilityPack.dll
