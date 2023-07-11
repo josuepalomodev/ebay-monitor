@@ -13,7 +13,9 @@ public partial class EbayListingsController
     private static readonly HttpClient Client = new();
     
     [HttpGet(Name = "GetEbayListings")]
-    public async Task<IEnumerable<EbayListing>> Get([FromQuery] string? searchQuery, [FromQuery] string? positiveKeywords, [FromQuery] string? negativeKeywords, [FromQuery] string? salesTaxRateUsd, [FromQuery] string? sort)
+    public async Task<IEnumerable<EbayListing>> Get([FromQuery] string? searchQuery, [FromQuery] string? positiveKeywords, 
+        [FromQuery] string? negativeKeywords, [FromQuery] string? minItemPrice, [FromQuery] string? maxItemPrice, 
+        [FromQuery] string? salesTaxRateUsd, [FromQuery] string? sort)
     {
         searchQuery = searchQuery?.ToLower();
         positiveKeywords = positiveKeywords?.ToLower();
@@ -31,7 +33,7 @@ public partial class EbayListingsController
             var ebayListingNodes =
                 htmlDocument.DocumentNode.SelectNodes(
                     ".//li[contains(@class,'s-item')]");
-            
+
             foreach (var ebayListingNode in ebayListingNodes)
             {
                 var id = ebayListingNode.Id;
@@ -41,37 +43,66 @@ public partial class EbayListingsController
                 }
 
                 var urlLink = ebayListingNode
-                    .SelectSingleNode(".//div[contains(@class, 's-item__info')]/a[contains(@class, 's-item__link')]").GetAttributeValue("href", "");
-                
-                var title = 
-                    ebayListingNode.SelectSingleNode(".//div[contains(@class, 's-item__title')]/span[contains(@role, 'heading')]").InnerText;
+                    .SelectSingleNode(".//div[contains(@class, 's-item__info')]/a[contains(@class, 's-item__link')]")
+                    .GetAttributeValue("href", "");
 
-                if (negativeKeywords != null && negativeKeywords.Split("+").Any(negativeKeyword => title.ToLower().Contains(negativeKeyword)))
+                var title =
+                    ebayListingNode
+                        .SelectSingleNode(".//div[contains(@class, 's-item__title')]/span[contains(@role, 'heading')]")
+                        .InnerText;
+
+                if (negativeKeywords != null && negativeKeywords.Split("+")
+                        .Any(negativeKeyword => title.ToLower().Contains(negativeKeyword)))
                 {
                     continue;
                 }
-                
-                if (positiveKeywords != null && !positiveKeywords.Split("+").All(positiveKeyword => title.ToLower().Contains(positiveKeyword)))
+
+                if (positiveKeywords != null && !positiveKeywords.Split("+")
+                        .All(positiveKeyword => title.ToLower().Contains(positiveKeyword)))
                 {
                     continue;
                 }
-                
+
                 var isNewListing = title.Contains("New Listing");
                 if (isNewListing)
                 {
                     title = title.Replace("New Listing", "");
                 }
-                
-                var condition = ebayListingNode.SelectSingleNode(".//div[contains(@class, 's-item__subtitle')]/span[contains(@class, 'SECONDARY_INFO')]").InnerText;
-                
-                var itemPriceUsdRaw = ebayListingNode.SelectSingleNode(".//div[contains(@class, 's-item__detail')]/span[contains(@class, 's-item__price')]").InnerText;
+
+                var condition =
+                    ebayListingNode
+                        .SelectSingleNode(
+                            ".//div[contains(@class, 's-item__subtitle')]/span[contains(@class, 'SECONDARY_INFO')]")
+                        ?.InnerText ?? "NA";
+
+                var itemPriceUsdRaw = ebayListingNode
+                    .SelectSingleNode(
+                        ".//div[contains(@class, 's-item__detail')]/span[contains(@class, 's-item__price')]").InnerText;
                 var shippingPriceUsdRaw = ebayListingNode
                     .SelectSingleNode(
-                        ".//div[contains(@class, 's-item__detail')]/span[contains(@class, 's-item__shipping')]")?.InnerText;
-                
+                        ".//div[contains(@class, 's-item__detail')]/span[contains(@class, 's-item__shipping')]")
+                    ?.InnerText;
+
                 var usdRegex = MyRegex();
                 var itemPriceUsdMatch = usdRegex.Match(itemPriceUsdRaw);
-                var itemPriceUsd = double.Parse(itemPriceUsdMatch.Value);
+
+                double itemPriceUsd;
+                try
+                {
+                    itemPriceUsd = double.Parse(itemPriceUsdMatch.Value);
+                }
+                catch (FormatException e)
+                {
+                    Console.WriteLine("\nAn error occurred attempting to parse an ebay listing's item price.");
+                    Console.WriteLine("Message :{0} ", e.Message);
+                    continue;
+                }
+
+                if (minItemPrice != null && itemPriceUsd < double.Parse(minItemPrice) || maxItemPrice != null && itemPriceUsd > double.Parse(maxItemPrice))
+                {
+                    continue;
+                }
+                
                 var shippingPriceUsdMatch = usdRegex.Match(shippingPriceUsdRaw ?? "");
                 var shippingPriceUsd = shippingPriceUsdMatch.Success ? double.Parse(shippingPriceUsdMatch.Value) : 0;
 
@@ -102,7 +133,7 @@ public partial class EbayListingsController
         }
         catch (HttpRequestException e)
         {
-            Console.WriteLine("\nAn exception occurred attempting to fetch ebay listings.");
+            Console.WriteLine("\nAn error occurred attempting to fetch ebay listings.");
             Console.WriteLine("Message :{0} ", e.Message);
         }
 
@@ -127,6 +158,7 @@ public partial class EbayListingsController
             });
         }
 
+        Console.WriteLine("Returned {0} eBayListings", ebayListings.Count);
         return ebayListings;
     }
 
