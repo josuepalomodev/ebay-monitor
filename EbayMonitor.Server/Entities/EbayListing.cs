@@ -3,6 +3,8 @@
 public class EbayListing
 {
     public string? Id { get; set; }
+    
+    public string? UrlLink { get; set; }
 
     public string? Title { get; set; }
 
@@ -13,6 +15,10 @@ public class EbayListing
     public double ItemPriceUsd { get; set; }
     
     public double ShippingPriceUsd { get; set; }
-    
+
+    public double SalesTaxUsd { get; set; }
+
+    public double TotalPriceUsd { get; set; }
+
     public DateTime ListedAt { get; set; }
 }
