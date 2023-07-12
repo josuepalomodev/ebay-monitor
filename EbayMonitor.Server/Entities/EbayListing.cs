@@ -10,6 +10,8 @@ public class EbayListing
 
     public bool IsNewListing { get; set; }
 
+    public string? ImageUrl { get; set; }
+
     public string? Condition { get; set; }
 
     public double ItemPriceUsd { get; set; }

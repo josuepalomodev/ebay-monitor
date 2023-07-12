@@ -62,12 +62,15 @@ public partial class EbayListingsController
                 {
                     continue;
                 }
-
+                
                 var isNewListing = title.Contains("New Listing");
                 if (isNewListing)
                 {
                     title = title.Replace("New Listing", "");
                 }
+
+                var imageUrl = ebayListingNode.SelectSingleNode(".//div[contains(@class, 's-item__image')]//img")
+                    .GetAttributeValue("src", "");
 
                 var condition =
                     ebayListingNode
@@ -121,6 +124,7 @@ public partial class EbayListingsController
                     UrlLink = urlLink,
                     Title = title,
                     IsNewListing = isNewListing,
+                    ImageUrl = imageUrl,
                     Condition = condition,
                     ItemPriceUsd = Math.Truncate(itemPriceUsd * 100) / 100,
                     ShippingPriceUsd = Math.Truncate(shippingPriceUsd * 100) / 100,
