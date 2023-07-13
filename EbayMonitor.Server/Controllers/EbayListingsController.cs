@@ -14,7 +14,7 @@ public partial class EbayListingsController
     
     [HttpGet(Name = "GetEbayListings")]
     public async Task<IEnumerable<EbayListing>> Get([FromQuery] string? searchQuery, [FromQuery] string? positiveKeywords, 
-        [FromQuery] string? negativeKeywords, [FromQuery] string? minItemPrice, [FromQuery] string? maxItemPrice, 
+        [FromQuery] string? negativeKeywords, [FromQuery] string? minTotalPrice, [FromQuery] string? maxTotalPrice, 
         [FromQuery] string? salesTaxRateUsd, [FromQuery] string? sort)
     {
         searchQuery = searchQuery?.ToLower();
@@ -51,15 +51,17 @@ public partial class EbayListingsController
                         .SelectSingleNode(".//div[contains(@class, 's-item__title')]/span[contains(@role, 'heading')]")
                         .InnerText;
 
-                if (negativeKeywords != null && negativeKeywords.Split("+")
+                if (negativeKeywords != null && negativeKeywords.Split()
                         .Any(negativeKeyword => title.ToLower().Contains(negativeKeyword)))
                 {
+                    Console.WriteLine("1");
                     continue;
                 }
 
-                if (positiveKeywords != null && !positiveKeywords.Split("+")
+                if (positiveKeywords != null && !positiveKeywords.Split()
                         .All(positiveKeyword => title.ToLower().Contains(positiveKeyword)))
                 {
+                    Console.WriteLine("2");
                     continue;
                 }
                 
@@ -101,17 +103,17 @@ public partial class EbayListingsController
                     continue;
                 }
 
-                if (minItemPrice != null && itemPriceUsd < double.Parse(minItemPrice) || maxItemPrice != null && itemPriceUsd > double.Parse(maxItemPrice))
-                {
-                    continue;
-                }
-                
                 var shippingPriceUsdMatch = usdRegex.Match(shippingPriceUsdRaw ?? "");
                 var shippingPriceUsd = shippingPriceUsdMatch.Success ? double.Parse(shippingPriceUsdMatch.Value) : 0;
 
                 var salesTaxUsd = itemPriceUsd * double.Parse(salesTaxRateUsd ?? "0");
                 
                 var totalPriceUsd = itemPriceUsd + shippingPriceUsd + salesTaxUsd;
+                
+                if (minTotalPrice != null && totalPriceUsd < double.Parse(minTotalPrice) || maxTotalPrice != null && totalPriceUsd > double.Parse(maxTotalPrice))
+                {
+                    continue;
+                }
 
                 var listedAtRaw = ebayListingNode.SelectSingleNode(
                     ".//span[contains(@class, 's-item__detail')]//span[contains(@class, 's-item__listingDate')]").InnerText;
@@ -156,6 +158,16 @@ public partial class EbayListingsController
                 if (sort == "totalPriceDesc")
                 {
                     return totalPrice2.CompareTo(totalPrice1);
+                }
+
+                if (sort == "newest")
+                {
+                    return ebayListing2.ListedAt.CompareTo(ebayListing1.ListedAt);
+                }
+                
+                if (sort == "oldest")
+                {
+                    return ebayListing1.ListedAt.CompareTo(ebayListing2.ListedAt);
                 }
 
                 return 0;
