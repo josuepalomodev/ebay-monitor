@@ -4,16 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f48aa78c-6827-4522-9e05-7396b4afa9fc" name="Changes" comment="init client application&#10;&#10;- Bootstrapped basic vite/react/ts application&#10;- Configured tailwindcss">
-      <change afterPath="$PROJECT_DIR$/EbayMonitor.Client/src/types.ts" afterDir="false" />
+    <list default="true" id="f48aa78c-6827-4522-9e05-7396b4afa9fc" name="Changes" comment="implemented basic ebay listing fetching from server api&#10;&#10;- Added ui for viewing fetched ebay listing data&#10;- Added extremely basic test http request to server api to fetch ebay listing data">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EbayMonitor.Client/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/EbayMonitor.Client/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EbayMonitor.Client/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/EbayMonitor.Client/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EbayMonitor.Client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/EbayMonitor.Client/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/EbayMonitor.Client/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/EbayMonitor.Client/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EbayMonitor.Client/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/EbayMonitor.Client/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EbayMonitor.Client/src/main.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/EbayMonitor.Client/src/main.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/EbayMonitor.Client/vite.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/EbayMonitor.Client/vite.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EbayMonitor.Server/Controllers/EbayListingsController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/EbayMonitor.Server/Controllers/EbayListingsController.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EbayMonitor.Server/bin/Debug/net7.0/EbayMonitor.Server.dll" beforeDir="false" afterPath="$PROJECT_DIR$/EbayMonitor.Server/bin/Debug/net7.0/EbayMonitor.Server.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EbayMonitor.Server/bin/Debug/net7.0/EbayMonitor.Server.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/EbayMonitor.Server/bin/Debug/net7.0/EbayMonitor.Server.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EbayMonitor.Server/obj/Debug/net7.0/EbayMonitor.Server.dll" beforeDir="false" afterPath="$PROJECT_DIR$/EbayMonitor.Server/obj/Debug/net7.0/EbayMonitor.Server.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EbayMonitor.Server/obj/Debug/net7.0/EbayMonitor.Server.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/EbayMonitor.Server/obj/Debug/net7.0/EbayMonitor.Server.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EbayMonitor.Server/obj/Debug/net7.0/ref/EbayMonitor.Server.dll" beforeDir="false" afterPath="$PROJECT_DIR$/EbayMonitor.Server/obj/Debug/net7.0/ref/EbayMonitor.Server.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/EbayMonitor.Server/obj/Debug/net7.0/refint/EbayMonitor.Server.dll" beforeDir="false" afterPath="$PROJECT_DIR$/EbayMonitor.Server/obj/Debug/net7.0/refint/EbayMonitor.Server.dll" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,24 +37,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "dev",
-    "last_opened_file_path": "C:/Users/josue/RiderProjects/EbayMonitor",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "prettierjs.PrettierConfiguration.Package": "C:\\Users\\josue\\RiderProjects\\EbayMonitor\\EbayMonitor.Client\\node_modules\\prettier",
-    "settings.editor.selected.configurable": "actions.on.save",
-    "ts.external.directory.path": "C:\\Users\\josue\\RiderProjects\\EbayMonitor\\EbayMonitor.Client\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/josue/RiderProjects/EbayMonitor&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;C:\\Users\\josue\\RiderProjects\\EbayMonitor\\EbayMonitor.Client\\node_modules\\prettier&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;actions.on.save&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\josue\\RiderProjects\\EbayMonitor\\EbayMonitor.Client\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration />
@@ -66,7 +66,10 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1689100102086</updated>
-      <workItem from="1689100103050" duration="10791000" />
+      <workItem from="1689100103050" duration="11747000" />
+      <workItem from="1689200126077" duration="1538000" />
+      <workItem from="1689215966623" duration="4203000" />
+      <workItem from="1689275270185" duration="6668000" />
     </task>
     <task id="LOCAL-00001" summary="init client application&#10;&#10;- Bootstrapped basic vite/react/ts application&#10;- Configured tailwindcss">
       <option name="closed" value="true" />
@@ -76,7 +79,23 @@
       <option name="project" value="LOCAL" />
       <updated>1689101309896</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="implemented basic ebay listing fetching from server api&#10;&#10;- Added ui for viewing fetched ebay listing data&#10;- Added extremely basic test http request to server api to fetch ebay listing data">
+      <option name="closed" value="true" />
+      <created>1689125150169</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1689125150169</updated>
+    </task>
+    <task id="LOCAL-00003" summary="implemented basic ebay listing fetching from server api&#10;&#10;- Added ui for viewing fetched ebay listing data&#10;- Added extremely basic test http request to server api to fetch ebay listing data">
+      <option name="closed" value="true" />
+      <created>1689125234004</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1689125234004</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -84,6 +103,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="init client application&#10;&#10;- Bootstrapped basic vite/react/ts application&#10;- Configured tailwindcss" />
-    <option name="LAST_COMMIT_MESSAGE" value="init client application&#10;&#10;- Bootstrapped basic vite/react/ts application&#10;- Configured tailwindcss" />
+    <MESSAGE value="implemented basic ebay listing fetching from server api&#10;&#10;- Added ui for viewing fetched ebay listing data&#10;- Added extremely basic test http request to server api to fetch ebay listing data" />
+    <option name="LAST_COMMIT_MESSAGE" value="implemented basic ebay listing fetching from server api&#10;&#10;- Added ui for viewing fetched ebay listing data&#10;- Added extremely basic test http request to server api to fetch ebay listing data" />
   </component>
 </project>
