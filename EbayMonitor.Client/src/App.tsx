@@ -12,7 +12,8 @@ export default function App() {
     "",
   ]);
   const [sortBy, setSortBy] = useState<string>("totalPriceAsc");
-  const [salesTaxRate, setSalesTaxRate] = useState<string>("");
+  const [salesTaxRateUsd, setSalesTaxRate] = useState<string>("");
+  const [dateRange, setDateRange] = useState<[string, string]>(["", ""]);
 
   async function fetchEbayListings(): Promise<void> {
     const [positiveKeywords, negativeKeywords] = parseKeywords(keywords);
@@ -27,12 +28,13 @@ export default function App() {
       isNaN(Number(totalPriceRange[1])) || totalPriceRange[1] === ""
         ? ""
         : `&maxTotalPrice=${Number(totalPriceRange[1])}`
+    }${dateRange[0] === "" ? "" : `&dateFrom=${dateRange[0]}`}${
+      dateRange[1] === "" ? "" : `&dateTo=${dateRange[1]}`
     }${
-      isNaN(Number(salesTaxRate)) || salesTaxRate === ""
+      isNaN(Number(salesTaxRateUsd)) || salesTaxRateUsd === ""
         ? ""
-        : `&salesTaxRate=${Number(salesTaxRate)}`
+        : `&salesTaxRateUsd=${Number(salesTaxRateUsd)}`
     }&sort=${sortBy}`;
-    console.log(serverApiEndpointTest);
     try {
       const response = await fetch(serverApiEndpointTest);
       if (response.ok) {
@@ -62,7 +64,7 @@ export default function App() {
   return (
     <div className="min-h-screen max-w-screen text-base text-neutral-300 bg-neutral-900">
       <div className="px-4 my-4">
-        <h4 className="text-xl">Feed</h4>
+        <h4 className="text-lg">Task Manager</h4>
       </div>
       <div className="px-4 mb-2">
         <div className="space-y-2 mb-8">
@@ -115,12 +117,34 @@ export default function App() {
             />
           </div>
           <div className="flex flex-col space-y-1">
-            <label className="text-sm" htmlFor="salesTaxRate">
+            <label className="text-sm" htmlFor="dateFrom">
+              Date From
+            </label>
+            <input
+              className="h-8 px-2 outline outline-1 outline-neutral-600 text-sm bg-transparent rounded"
+              id="dateFrom"
+              type="text"
+              onChange={(e) => setDateRange([e.target.value, dateRange[1]])}
+            />
+          </div>
+          <div className="flex flex-col space-y-1">
+            <label className="text-sm" htmlFor="dateTo">
+              Date To
+            </label>
+            <input
+              className="h-8 px-2 outline outline-1 outline-neutral-600 text-sm bg-transparent rounded"
+              id="dateTo"
+              type="text"
+              onChange={(e) => setDateRange([dateRange[0], e.target.value])}
+            />
+          </div>
+          <div className="flex flex-col space-y-1">
+            <label className="text-sm" htmlFor="salesTaxRateUsd">
               Sales Tax Rate
             </label>
             <input
               className="h-8 px-2 outline outline-1 outline-neutral-600 text-sm bg-transparent rounded"
-              id="salesTaxRate"
+              id="salesTaxRateUsd"
               type="text"
               onChange={(e) => setSalesTaxRate(e.target.value)}
             />
@@ -156,7 +180,7 @@ export default function App() {
               await fetchEbayListings();
             }}
           >
-            Search
+            Add Task
           </button>
         </div>
         <h4 className="text-sm mb-2">Showing {ebayListings.length} results</h4>
