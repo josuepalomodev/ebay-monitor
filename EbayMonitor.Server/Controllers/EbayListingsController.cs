@@ -14,9 +14,10 @@ public partial class EbayListingsController
     
     [HttpGet(Name = "GetEbayListings")]
     public async Task<IEnumerable<EbayListing>> Get([FromQuery] string? searchQuery, [FromQuery] string? positiveKeywords, 
-        [FromQuery] string? negativeKeywords, [FromQuery] string? minTotalPrice, [FromQuery] string? maxTotalPrice, 
-        [FromQuery] string? salesTaxRateUsd, [FromQuery] string? sort)
+        [FromQuery] string? negativeKeywords, [FromQuery] string? minTotalPrice, [FromQuery] string? maxTotalPrice,
+        [FromQuery] string? dateFrom, [FromQuery] string? dateTo, [FromQuery] string? salesTaxRateUsd, [FromQuery] string? sort)
     {
+        Console.WriteLine(salesTaxRateUsd);
         searchQuery = searchQuery?.ToLower();
         positiveKeywords = positiveKeywords?.ToLower();
         negativeKeywords = negativeKeywords?.ToLower();
@@ -38,6 +39,16 @@ public partial class EbayListingsController
             {
                 var id = ebayListingNode.Id;
                 if (id.Length == 0)
+                {
+                    continue;
+                }
+                
+                var listedAtRaw = ebayListingNode.SelectSingleNode(
+                    ".//span[contains(@class, 's-item__detail')]//span[contains(@class, 's-item__listingDate')]").InnerText;
+                
+                var listedAt = DateTime.ParseExact(listedAtRaw, "MMM-d HH:mm", CultureInfo.InvariantCulture);
+
+                if (!IsListedAtWithinRange(listedAt, dateFrom, dateTo))
                 {
                     continue;
                 }
@@ -115,11 +126,6 @@ public partial class EbayListingsController
                     continue;
                 }
 
-                var listedAtRaw = ebayListingNode.SelectSingleNode(
-                    ".//span[contains(@class, 's-item__detail')]//span[contains(@class, 's-item__listingDate')]").InnerText;
-                
-                var listedAt = DateTime.ParseExact(listedAtRaw, "MMM-d HH:mm", CultureInfo.InvariantCulture);
-
                 var ebayListing = new EbayListing
                 {
                     Id = id,
@@ -180,4 +186,39 @@ public partial class EbayListingsController
 
     [GeneratedRegex("\\d+(\\.\\d{2})?")]
     private static partial Regex MyRegex();
+    
+    private static bool IsListedAtWithinRange(DateTime listedAt, string? dateFrom, string? dateTo)
+    {
+        if (string.IsNullOrEmpty(dateFrom) && string.IsNullOrEmpty(dateTo))
+        {
+            return true;
+        }
+
+        DateTime parsedDateFrom = DateTime.MinValue;
+        DateTime parsedDateTo = DateTime.MaxValue;
+
+        if (!string.IsNullOrEmpty(dateFrom) && !DateTime.TryParse(dateFrom, out parsedDateFrom))
+        {
+            throw new ArgumentException("Failed to parse dateFrom. Please ensure it's in the format 'MM/DD/YYYY'.");
+        }
+
+        if (!string.IsNullOrEmpty(dateTo) && !DateTime.TryParse(dateTo, out parsedDateTo))
+        {
+            throw new ArgumentException("Failed to parse dateTo. Please ensure it's in the format 'MM/DD/YYYY'.");
+        }
+
+        if (parsedDateTo == DateTime.Today && !(parsedDateFrom == parsedDateTo))
+        {
+            parsedDateTo = parsedDateTo.Date.AddDays(1).AddMinutes(-1);
+        }
+
+        if (parsedDateFrom == parsedDateTo)
+        {
+            parsedDateFrom = parsedDateFrom.Date;
+            parsedDateTo = parsedDateTo.Date.AddDays(1).AddMinutes(-1);
+        }
+
+        
+        return listedAt >= parsedDateFrom && listedAt <= parsedDateTo;
+    }
 }
